@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css';
 import ReportCard from '../components/reportCard';
 import WeatherDetails from '../components/weatherDetails';
 import SearchCities from '../components/searchCities';
+import config from '../config/config.json';
 
 import { useEffect, useReducer, useState } from 'react';
 
@@ -12,10 +13,11 @@ import { useEffect, useReducer, useState } from 'react';
 export default function Home() {
 
   const [weatherReport, setWeatherReport] = useState({weather:[]})
+console.log(config);
 
   useEffect(() => {
     //fetch the default city weather on the load
-    fetch('http://localhost:8080')
+    fetch(config.API_BASE)
       .then((response) => response.json())
       .then((response)=> {
         if(!response.status) return alert("Something Went Wrong")
@@ -28,7 +30,7 @@ export default function Home() {
 
   const fetchSelctedCity = (cityName) => {
     //fetch the selected city
-    fetch('http://localhost:8080/api/city/getcity',
+    fetch(`${config.API_BASE}/api/city/getcity`,
     {method:'POST',
     headers:{'Content-Type': 'application/json'},
     body:JSON.stringify({city:cityName})

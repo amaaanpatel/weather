@@ -1,11 +1,12 @@
 import { useEffect, useReducer, useState,useRef} from 'react';
+import config from '../config/config.json';
 
 export default function SearchCities({fetchSelctedCity}) {
     const [cities,setCities] = useState([])
     const addCityInput = useRef(null);
     useEffect(() => {
         //fetch the default city weather on the load
-        fetch('http://localhost:8080/api/city/getcities')
+        fetch(`${config.API_BASE}/api/city/getcities`)
           .then((response) => response.json())
           .then((response)=> {
             setCities(response.data)
@@ -17,7 +18,7 @@ export default function SearchCities({fetchSelctedCity}) {
 
     const addCities = () => {
         //add the city to the data base
-        fetch('http://localhost:8080/api/city/getcity',
+        fetch(`${config.API_BASE}/api/city/getcity`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
