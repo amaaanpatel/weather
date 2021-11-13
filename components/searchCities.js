@@ -25,7 +25,6 @@ export default function SearchCities({fetchSelctedCity}) {
             })
             .then((response) => response.json())
             .then((response) => {
-                console.log(response)
                 if (!response.status) return alert("Something Went Wrong")
                 let new_cities = [...cities,{cityName:response.data.name}]
                 console.log(new_cities)
@@ -42,7 +41,7 @@ export default function SearchCities({fetchSelctedCity}) {
             </div>
             <div className="cities_list mr-5">
                 {
-                    cities.map((element,index)=>  <p onClick={()=>{fetchSelctedCity(element.cityName)}} className="light-text suggestion">{element.cityName}</p>)
+                    cities.map((element,index)=>  <p key={index} onClick={()=>{fetchSelctedCity(element.cityName)}} className="light-text suggestion">{element.cityName}</p>)
                 }
               
             </div>

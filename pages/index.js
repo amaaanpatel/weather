@@ -18,7 +18,6 @@ export default function Home() {
     fetch('http://localhost:8080')
       .then((response) => response.json())
       .then((response)=> {
-        console.log(response)
         if(!response.status) return alert("Something Went Wrong")
         setWeatherReport(response.data)
       })
@@ -28,7 +27,6 @@ export default function Home() {
   }, []);
 
   const fetchSelctedCity = (cityName) => {
-    console.log(cityName)
     //fetch the selected city
     fetch('http://localhost:8080/api/city/getcity',
     {method:'POST',
@@ -37,7 +35,6 @@ export default function Home() {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response)
         if(!response.status) return alert("Something Went Wrong")
         setWeatherReport(response.data)
       })
