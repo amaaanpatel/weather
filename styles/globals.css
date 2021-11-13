@@ -90,6 +90,11 @@ input:focus {
   background-color: #B0BEC5
 }
 
+.cities_list{
+  max-height: 250px;
+  overflow-y: auto;
+}
+
 @media screen and (max-width: 500px) {
   .card1 {
       padding-left: 26px

@@ -10,7 +10,7 @@ export default class MyDocument extends Document {
                     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' />
                     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
                 </Head>
-                <body  oncontextmenu='return false' className='snippet-body'>
+                <body  className='snippet-body'>
                     <Main />
                     <NextScript />
                     <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>

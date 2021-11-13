@@ -1,15 +1,50 @@
-export default function SearchCities() {
+import { useEffect, useReducer, useState,useRef} from 'react';
 
+export default function SearchCities({fetchSelctedCity}) {
+    const [cities,setCities] = useState([])
+    const addCityInput = useRef(null);
+    useEffect(() => {
+        //fetch the default city weather on the load
+        fetch('http://localhost:8080/api/city/getcities')
+          .then((response) => response.json())
+          .then((response)=> {
+            setCities(response.data)
+          })
+          .catch(()=>{
+            alert("SERVER FAILED")
+          })
+      }, [])
+
+    const addCities = () => {
+        //add the city to the data base
+        fetch('http://localhost:8080/api/city/getcity',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ city: addCityInput.current.value})
+            })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response)
+                if (!response.status) return alert("Something Went Wrong")
+                let new_cities = [...cities,{cityName:response.data.name}]
+                console.log(new_cities)
+                setCities(new_cities)
+            })
+            .catch(()=>{
+                alert("SERVER FAILED")
+            })
+    }
     return (
         <div className="dearch details">
-            <div className="row px-3"> <input type="text" name="location" placeholder="Another location" className="mb-5" />
-                <div className="fa fa-search mb-5 mr-0 text-center"></div>
+            <div className="row px-3"> <input ref={addCityInput} type="text" name="location" placeholder="ADD CITY" className="mb-5" />
+                <div className="fa fa-search mb-5 mr-0 text-center" onClick={()=>{addCities()}}></div>
             </div>
-            <div className="mr-5">
-                <p className="light-text suggestion">Birmingham</p>
-                <p className="light-text suggestion">Manchester</p>
-                <p className="light-text suggestion">New York</p>
-                <p className="light-text suggestion">California</p>
+            <div className="cities_list mr-5">
+                {
+                    cities.map((element,index)=>  <p onClick={()=>{fetchSelctedCity(element.cityName)}} className="light-text suggestion">{element.cityName}</p>)
+                }
+              
             </div>
             <div className="line my-5"></div>
         </div>

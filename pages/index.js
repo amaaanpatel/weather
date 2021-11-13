@@ -5,7 +5,7 @@ import ReportCard from '../components/reportCard';
 import WeatherDetails from '../components/weatherDetails';
 import SearchCities from '../components/searchCities';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 
 
@@ -17,8 +17,34 @@ export default function Home() {
     //fetch the default city weather on the load
     fetch('http://localhost:8080')
       .then((response) => response.json())
-      .then((response)=> setWeatherReport(response.data))
-  }, [])
+      .then((response)=> {
+        console.log(response)
+        if(!response.status) return alert("Something Went Wrong")
+        setWeatherReport(response.data)
+      })
+      .catch(()=>{
+        alert("SERVER FAILED")
+      })
+  }, []);
+
+  const fetchSelctedCity = (cityName) => {
+    console.log(cityName)
+    //fetch the selected city
+    fetch('http://localhost:8080/api/city/getcity',
+    {method:'POST',
+    headers:{'Content-Type': 'application/json'},
+    body:JSON.stringify({city:cityName})
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response)
+        if(!response.status) return alert("Something Went Wrong")
+        setWeatherReport(response.data)
+      })
+      .catch(()=>{
+        alert("SERVER FAILED")
+      })
+  }
 
   return (
     <div className="container-fluid px-1 px-sm-3 py-5 mx-auto">
@@ -32,11 +58,11 @@ export default function Home() {
 
           <div className="card2 col-lg-4 col-md-5">
             {/* serach Cities start */}
-            <SearchCities />
+            <SearchCities fetchSelctedCity={fetchSelctedCity}/>
             {/* serach Cities End */}
 
             {/* weather details section start */}
-            <WeatherDetails />
+            <WeatherDetails weatherData={weatherReport}/>
             {/* weather details section end */}
 
           </div>
